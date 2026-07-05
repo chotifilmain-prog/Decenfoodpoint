@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decent Refreshment Point | Premium Ordering Hub Okara</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+        :root {
+            --bg-main: #121212;
+            --bg-card: #1e1e1e;
+            --primary: #ffc107;
+            --secondary: #ff3838;
+            --text: #eeeeee;
+            --text-muted: #aaaaaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation Infrastructure */
+        header {
+            background-color: rgba(18, 18, 18, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+
+        .logo span { color: var(--secondary); }
+
+        nav { display: flex; align-items: center; }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover { color: var(--primary); }
+
+        .cart-trigger {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 25px;
+            font-weight: 700;
+        }
+
+        .cart-count {
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 12px;
+        }
+
+        /* Hero Showcase Layout */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1200') no-repeat center center/cover;
+            height: 40vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero h1 { font-size: 48px; font-weight: 700; margin-bottom: 15px; }
+        .hero h1 span {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p { font-size: 18px; color: #cccccc; max-width: 650px; font-weight: 300; }
+
+        /* Categorized Tab System */
+        .menu-section { padding: 60px 50px; max-width: 1300px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 36px; font-weight: 700; margin-bottom: 10px; }
+        .section-subtitle { text-align: center; font-size: 16px; color: var(--text-muted); margin-bottom: 40px; }
+
+        .menu-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 40px; }
+        .tab-btn {
+            background-color: var(--bg-card);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .tab-btn:hover, .tab-btn.active {
+            background: var(--primary);
+            color: #121212;
+            border-color: var(--primary);
+        }
+
+        /* Grid Matrices & Premium Cards */
+        .menu-group { display: none; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .menu-group.active-group { display: grid; }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.03);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover { transform: translateY(-5px); border-color: rgba(255, 193, 7, 0.2); }
+        
+        .card img { width: 100%; height: 200px; object-fit: cover; background-color: #2a2a2a; }
+        .card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+        .card h3 { font-size: 19px; font-weight: 600; margin-bottom: 8px; }
+        .card p { color: var(--text-muted); font-size: 13px; line-height: 1.4; margin-bottom: 15px; flex-grow: 1; }
+
+        .variant-selector {
+            width: 100%;
+            padding: 8px;
+            background: #2a2a2a;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        .price { font-size: 18px; font-weight: 700; color: var(--primary); }
+        
+        .add-cart-btn {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+        .add-cart-btn:hover { background-color: var(--primary); color: #121212; }
+
+        /* Slide-Out Persistent Shopping Cart Panel */
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background-color: #1a1a1a;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.7);
+            z-index: 150;
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid rgba(255,255,255,0.05);
+        }
+        .cart-drawer.open { right: 0; }
+
+        .cart-header { padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .cart-header h2 { font-size: 22px; color: white; }
+        .close-cart { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
+
+        .cart-items { flex-grow: 1; overflow-y: auto; padding: 25px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .cart-item-details h4 { font-size: 15px; margin-bottom: 4px; }
+        .cart-item-details p { color: var(--primary); font-size: 14px; font-weight: 600; }
+        
+        .quantity-controls { display: flex; align-items: center; gap: 10px; }
+        .qty-btn { background: #333; border: none; color: white; width: 28px; height: 28px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .qty-btn:hover { background: var(--primary); color: #121212; }
+
+        .cart-footer { padding: 25px; border-top: 1px solid rgba(255,255,255,0.05); background: #151515; }
+        .cart-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+        .checkout-btn { background: linear-gradient(135deg, #28a745, #1e7e34); color: white; border: none; width: 100%; padding: 14px; font-size: 16px; font-weight: 600; border-radius: 10px; cursor: pointer; text-align: center; text-decoration: none; display: block; }
+
+        /* Unified Delivery Manifest Form Layout */
+        .order-section { padding: 60px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
+        .order-form { background: var(--bg-card); max-width: 550px; margin: 0 auto; padding: 40px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.05); text-align: left; }
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #cccccc; font-size: 14px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px 16px; background-color: #2a2a2a; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; font-size: 15px; color: #ffffff; outline: none; }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary); }
+        
+        .manifest-summary { background: #151515; padding: 20px; border-radius: 10px; margin-bottom: 25px; border: 1px dashed rgba(255,255,255,0.1); }
+        .manifest-summary h3 { font-size: 16px; margin-bottom: 10px; color: var(--primary); }
+        .manifest-list { font-size: 14px; color: #ccc; line-height: 1.6; }
+
+        footer { background-color: #0d0d0d; color: #888888; text-align: center; padding: 40px 20px; font-size: 14px; border-top: 1px solid rgba(255,255,255,0.02); line-height: 1.8; }
+
+        @media (max-width: 768px) {
+            header { padding: 20px; }
+            .cart-drawer { width: 100%; right: -100%; }
+            .menu-section { padding: 40px 15px; }
+            .hero h1 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Unified Banner Navbar -->
+    <header>
+        <a href="#" class="logo">DECENT<span> Refreshment Point</span></a>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#menu-section">Menu</a>
+            <button class="cart-trigger" onclick="toggleCart(true)">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Taste the <span>Difference.</span></h1>
+        <p>Premium Fast Food Matrix located at Kharal Chowk Govt. Colony, Okara. Build your custom cart configuration below.</p>
+    </section>
+
+    <!-- Main Dynamic Interface Layout -->
+    <section class="menu-section" id="menu-section">
+        <h2 class="section-title">Decent Digital Menu board</h2>
+        <p class="section-subtitle">Add multiple items, adjust quantity vectors, and execute unified checkout routing</p>
+        
+        <div class="menu-tabs">
+            <button class="tab-btn active" onclick="filterMenu('deals')">Family Deals</button>
+            <button class="tab-btn" onclick="filterMenu('pizza')">Premium Pizzas</button>
+            <button class="tab-btn" onclick="filterMenu('burgers')">Burgers</button>
+            <button class="tab-btn" onclick="filterMenu('shawarma')">Shawarma Varieties</button>
+            <button class="tab-btn" onclick="filterMenu('paratha')">Paratha Rolls</button>
+            <button class="tab-btn" onclick="filterMenu('sides')">Sides & Pastas</button>
+        </div>
+
+        <div class="menu-container">
+            
+            <!-- GROUP: FAMILY DEALS -->
+            <div class="menu-group active-group" id="deals">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1604917621956-10dfa7cce2e7?q=80&w=500" alt="Deal 1">
+                    <div class="card-body">
+                        <h3>Family Deal #1</h3><p>2-Large Chicken Pizza, 1-1.5 Ltr Cold Drink</p>
+                        <div class="price-row"><span class="price">Rs. 2150</span><button class="add-cart-btn" onclick="addToCart('Family Deal #1', 2150)">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?q=80&w=500" alt="Deal 2">
+                    <div class="card-body">
+                        <h3>Family Deal #2</h3><p>2-Medium Chicken Pizza, 1-1.5 Ltr Cold Drink</p>
+                        <div class="price-row"><span class="price">Rs. 1500</span><button class="add-cart-btn" onclick="addToCart('Family Deal #2', 1500)">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=500" alt="Deal 3">
+                    <div class="card-body">
+                        <h3>Family Deal #3</h3><p>1-Medium Chicken Pizza, 1-Macaroni Pasta, 1-1 Ltr Cold Drink</p>
+                        <div class="price-row"><span class="price">Rs. 1250</span><button class="add-cart-btn" onclick="addToCart('Family Deal #3', 1250)">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?q=80&w=500" alt="Deal 4">
+                    <div class="card-body">
+                        <h3>Family Deal #4</h3><p>1-Large Chicken Pizza, 2-Zinger Burger, 1-1.5 Ltr Cold Drink</p>
+                        <div class="price-row"><span class="price">Rs. 1750</span><button class="add-cart-btn" onclick="addToCart('Family Deal #4', 1750)">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=500" alt="Deal 5">
+                    <div class="card-body">
+                        <h3>Family Deal #5</h3><p>1-Medium Chicken Pizza, 10-Hot Wings, 1-1 Ltr Cold Drink</p>
+                        <div class="price-row"><span class="price">Rs. 1350</span><button class="add-cart-btn" onclick="addToCart('Family Deal #5', 1350)">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=500" alt="Deal 6">
+                    <div class="card-body">
+                        <h3>Family Deal #6</h3><p>1-Cheese Fries, 1-Macaroni Pasta, 1-500 ml Cold Drink</p>
+                        <div class="price-row"><span class="price">Rs. 900</span><button class="add-cart-btn" onclick="addToCart('Family Deal #6', 900)">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1521305916504-4a1121188589?q=80&w=500" alt="Deal 7">
+                    <div class="card-body">
+                        <h3>Family Deal #7</h3><p>2-Zinger Burger, 2-Zinger Shawarma, 1-1 Ltr Cold Drink</p>
+                        <div class="price-row"><span class="price">Rs. 1120</span><button class="add-cart-btn" onclick="addToCart('Family Deal #7', 1120)">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1561758033-d89a9ad46330?q=80&w=500" alt="Deal 8">
+                    <div class="card-body">
+                        <h3>Family Deal #8</h3><p>2-Chicken Shawarma, 2-Zinger Shawarma, 1-1 Ltr Cold Drink</p>
+                        <div class="price-row"><span class="price">Rs. 940</span><button class="add-cart-btn" onclick="addToCart('Family Deal #8', 940)">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=500" alt="Deal 9">
+                    <div class="card-body">
+                        <h3>Family EID Deal (#9)</h3><p>2-Large Chicken Pizza, 1-Creamy Pasta, 2-Zinger Burger, 2-1.5 Ltr Cold Drink</p>
+                        <div class="price-row"><span class="price">Rs. 3199</span><button class="add-cart-btn" onclick="addToCart('Family EID Deal #9', 3199)">Add to Cart</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GROUP: PIZZAS (WITH DYNAMIC SIZE MATRICES) -->
+            <div class="menu-group" id="pizza">
+                <div class="card" id="pizza-behari">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=500" alt="Behari Kabab">
+                    <div class="card-body">
+                        <h3>Behari Kabab Pizza</h3><p>Highly Recommended signature blend</p>
+                        <select class="variant-selector" id="variant-behari">
+                            <option value="Large-1300">Large - Rs. 1300</option>
+                            <option value="Medium-900">Medium - Rs. 900</option>
+                        </select>
+                        <div class="price-row"><span class="price">Dynamic</span><button class="add-cart-btn" onclick="addPizzaToCart('Behari Kabab Pizza', 'variant-behari')">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card" id="pizza-cheezz">
+                    <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?q=80&w=500" alt="Cheezz Crust">
+                    <div class="card-body">
+                        <h3>Chicken Cheezz Crust</h3><p>Stuffed thick rim cheese signature</p>
+                        <select class="variant-selector" id="variant-cheezz">
+                            <option value="Large-1300">Large - Rs. 1300</option>
+                            <option value="Medium-900">Medium - Rs. 900</option>
+                        </select>
+                        <div class="price-row"><span class="price">Dynamic</span><button class="add-cart-btn" onclick="addPizzaToCart('Chicken Cheezz Crust', 'variant-cheezz')">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card" id="pizza-stuffar">
+                    <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=500" alt="Kabab Stuffar">
+                    <div class="card-body">
+                        <h3>Kabab Stuffar Pizza</h3><p>Crust rim loaded with grilled kabab parts</p>
+                        <select class="variant-selector" id="variant-stuffar">
+                            <option value="Large-1300">Large - Rs. 1300</option>
+                            <option value="Medium-900">Medium - Rs. 900</option>
+                        </select>
+                        <div class="price-row"><span class="price">Dynamic</span><button class="add-cart-btn" onclick="addPizzaToCart('Kabab Stuffar Pizza', 'variant-stuffar')">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card" id="pizza-crawn">
+                    <img src="https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?q=80&w=500" alt="Crawn Crust">
+                    <div class="card-body">
+                        <h3>Crawn Crust Pizza</h3><p>Special Crown styled visual crust presentation</p>
+                        <select class="variant-selector" id="variant-crawn">
+                            <option value="Large-1300">Large - Rs. 1300</option>
+                            <option value="Medium-900">Medium - Rs. 900</option>
+                        </select>
+                        <div class="price-row"><span class="price">Dynamic</span><button class="add-cart-btn" onclick="addPizzaToCart('Crawn Crust Pizza', 'variant-crawn')">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card" id="pizza-lazania">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=500" alt="Lazania Pizza">
+                    <div class="card-body">
+                        <h3>Lazania Pizza</h3><p>Chef Special triple layer profiles</p>
+                        <select class="variant-selector" id="variant-lazania">
+                            <option value="Large-1500">Large - Rs. 1500</option>
+                            <option value="Medium-1050">Medium - Rs. 1050</option>
+                            <option value="Small-650">Small - Rs. 650</option>
+                        </select>
+                        <div class="price-row"><span class="price">Dynamic</span><button class="add-cart-btn" onclick="addPizzaToCart('Lazania Pizza', 'variant-lazania')">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card" id="pizza-kababsp">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=500" alt="Kabab Special">
+                    <div class="card-body">
+                        <h3>Kabab Special Pizza</h3><p>Drizzled white sauce with regional recipe</p>
+                        <select class="variant-selector" id="variant-kababsp">
+                            <option value="Large-1500">Large - Rs. 1500</option>
+                            <option value="Medium-1050">Medium - Rs. 1050</option>
+                            <option value="Small-650">Small - Rs. 650</option>
+                        </select>
+                        <div class="price-row"><span class="price">Dynamic</span><button class="add-cart-btn" onclick="addPizzaToCart('Kabab Special Pizza', 'variant-kababsp')">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?q=80&w=500" alt="Crezy 4">
+                    <div class="card-body">
+                        <h3>Crezy 4 Pizza</h3><p>Four distinct quadrant sections</p>
+                        <div class="price-row"><span class="price">M: Rs. 1050</span><button class="add-cart-btn" onclick="addToCart('Crezy 4 Pizza (Medium)', 1050)">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=500" alt="Manakish">
+                    <div class="card-body">
+                        <h3>Manakish Pizza</h3><p>Traditional spice blend dough</p>
+                        <div class="price-row"><span class="price">M: Rs. 1050</span><button class="add-cart-btn" onclick="addToCart('Manakish Pizza (Medium)', 1050)">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card" id="pizza-trad">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=500" alt="Traditional">
+                    <div class="card-body">
+                        <h3>Traditional Flavors</h3><p>Tikka, Fajitta, Supreme, Cheez Lover, Hot Special</p>
+                        <select class="variant-selector" id="variant-trad">
+                            <option value="Large-1100">Large - Rs. 1100</option>
+                            <option value="Medium-750">Medium - Rs. 750</option>
+                            <option value="Small-450">Small - Rs. 450</option>
+                        </select>
+                        <div class="price-row"><span class="price">Dynamic</span><button class="add-cart-btn" onclick="addPizzaToCart('Traditional Pizza (Flavor item)', 'variant-trad')">Add to Cart</button></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1509722747041-616f39b57569?q=80&w=500" alt="Pizza Sandwich">
+                    <div class="card-body">
+                        <h3>Pizza Sandwich</h3><p>Signature unique double layered hybrid format</p>
+                        <div class="price-row"><span class="price">Rs. 650</span><button class="add-cart-btn" onclick="addToCart('Pizza Sandwich', 650)">Add to Cart</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GROUP: BURGERS -->
+            <div class="menu-group" id="burgers">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=500" alt="Zinger">
+                    <div class="card-body"><h3>Zinger Burger</h3><p>Classic crispy fillet crunch</p><div class="price-row"><span class="price">Rs. 300</span><button class="add-cart-btn" onclick="addToCart('Zinger Burger', 300)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1525164286253-04e68b9d942a?q=80&w=500" alt="Tower">
+                    <div class="card-body"><h3>Zinger Tower Burger</h3><p>Stacked high-tier double patty layout</p><div class="price-row"><span class="price">Rs. 450</span><button class="add-cart-btn" onclick="addToCart('Zinger Tower Burger', 450)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1521305916504-4a1121188589?q=80&w=500" alt="Kabab Patty">
+                    <div class="card-body"><h3>Chicken Kabab Petty Burger</h3><p>Grilled locally spiced seekh patty</p><div class="price-row"><span class="price">Rs. 350</span><button class="add-cart-btn" onclick="addToCart('Chicken Kabab Petty Burger', 350)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=500" alt="Petty">
+                    <div class="card-body"><h3>Petty Burger</h3><p>Budget entry level beef/chicken blend patty</p><div class="price-row"><span class="price">Rs. 250</span><button class="add-cart-btn" onclick="addToCart('Petty Burger', 250)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=500" alt="Chicken Burger">
+                    <div class="card-body"><h3>Chicken Burger</h3><p>Soft steamed crumb bun signature</p><div class="price-row"><span class="price">Rs. 250</span><button class="add-cart-btn" onclick="addToCart('Chicken Burger', 250)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=500" alt="Special Chicken">
+                    <div class="card-body"><h3>Special Chicken Burger</h3><p>Additional dressing and dual cheese injection layers</p><div class="price-row"><span class="price">Rs. 300</span><button class="add-cart-btn" onclick="addToCart('Special Chicken Burger', 300)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=500" alt="Egg Shami">
+                    <div class="card-body"><h3>Egg Shami Burger</h3><p>Authentic traditional fried egg lentil patty</p><div class="price-row"><span class="price">Rs. 160</span><button class="add-cart-btn" onclick="addToCart('Egg Shami Burger', 160)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=500" alt="Double Egg">
+                    <div class="card-body"><h3>Double Egg Burger</h3><p>Layered multi-egg omelet construct configuration</p><div class="price-row"><span class="price">Rs. 200</span><button class="add-cart-btn" onclick="addToCart('Double Egg Burger', 200)">Add to Cart</button></div></div>
+                </div>
+            </div>
+
+            <!-- GROUP: SHAWARMA -->
+            <div class="menu-group" id="shawarma">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=500" alt="Special Shawarma">
+                    <div class="card-body"><h3>Special Chicken Shawarma</h3><p>Extra mayonnaise dressing vector</p><div class="price-row"><span class="price">Rs. 200</span><button class="add-cart-btn" onclick="addToCart('Special Chicken Shawarma', 200)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1561758033-d89a9ad46330?q=80&w=500" alt="Shawarma">
+                    <div class="card-body"><h3>Chicken Shawarma</h3><p>Standard classic pocket pita roll</p><div class="price-row"><span class="price">Rs. 180</span><button class="add-cart-btn" onclick="addToCart('Chicken Shawarma', 180)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=500" alt="Tikka Shawarma">
+                    <div class="card-body"><h3>Chicken Tikka Shawarma</h3><p>Smoked BBQ element spice profile</p><div class="price-row"><span class="price">Rs. 250</span><button class="add-cart-btn" onclick="addToCart('Chicken Tikka Shawarma', 250)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=500" alt="Zinger Shawarma">
+                    <div class="card-body"><h3>Zinger Shawarma</h3><p>Crispy strip pieces inside pita envelope</p><div class="price-row"><span class="price">Rs. 250</span><button class="add-cart-btn" onclick="addToCart('Zinger Shawarma', 250)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=500" alt="Zinger Mix">
+                    <div class="card-body"><h3>Zinger Chicken Mix Shawarma</h3><p>Dual compound meat ratio blend layout</p><div class="price-row"><span class="price">Rs. 230</span><button class="add-cart-btn" onclick="addToCart('Zinger Chicken Mix Shawarma', 230)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=500" alt="Zinger Cheese">
+                    <div class="card-body"><h3>Zinger Cheese Shawarma</h3><p>Melted liquid dairy spread overlay</p><div class="price-row"><span class="price">Rs. 320</span><button class="add-cart-btn" onclick="addToCart('Zinger Cheese Shawarma', 320)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=500" alt="Kabab Shawarma">
+                    <div class="card-body"><h3>Chicken Kabab Shawarma</h3><p>Seekh skewer core configuration</p><div class="price-row"><span class="price">Rs. 250</span><button class="add-cart-btn" onclick="addToCart('Chicken Kabab Shawarma', 250)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=500" alt="Malai Shawarma">
+                    <div class="card-body"><h3>Milai Boti Shawarma</h3><p>Creamy yogurt tender chunk profiles</p><div class="price-row"><span class="price">Rs. 350</span><button class="add-cart-btn" onclick="addToCart('Milai Boti Shawarma', 350)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=500" alt="Cheese Shawarma">
+                    <div class="card-body"><h3>Chicken Cheese Shawarma</h3><p>Shredded mozzarella hot zone wrap</p><div class="price-row"><span class="price">Rs. 260</span><button class="add-cart-btn" onclick="addToCart('Chicken Cheese Shawarma', 260)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1604917621956-10dfa7cce2e7?q=80&w=500" alt="Platter">
+                    <div class="card-body"><h3>Chicken Platter Shawarma</h3><p>Deconstructed elements served over array</p><div class="price-row"><span class="price">Rs. 450</span><button class="add-cart-btn" onclick="addToCart('Chicken Platter Shawarma', 450)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1604917621956-10dfa7cce2e7?q=80&w=500" alt="Zinger Platter">
+                    <div class="card-body"><h3>Zinger Platter Shawarma</h3><p>Crispy strip sets segmented on dish plate</p><div class="price-row"><span class="price">Rs. 600</span><button class="add-cart-btn" onclick="addToCart('Zinger Platter Shawarma', 600)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1604917621956-10dfa7cce2e7?q=80&w=500" alt="Mix Platter">
+                    <div class="card-body"><h3>Zinger & Chicken Mix Platter</h3><p>Maximum hybrid sharing variant blueprint</p><div class="price-row"><span class="price">Rs. 650</span><button class="add-cart-btn" onclick="addToCart('Zinger & Chicken Mix Platter', 650)">Add to Cart</button></div></div>
+                </div>
+            </div>
+
+            <!-- GROUP: PARATHA -->
+            <div class="menu-group" id="paratha">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=500" alt="Kabab Paratha">
+                    <div class="card-body"><h3>Chicken Kabab Paratha</h3><p>Deep crisp puri flatbread line wrap</p><div class="price-row"><span class="price">Rs. 350</span><button class="add-cart-btn" onclick="addToCart('Chicken Kabab Paratha', 350)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=500" alt="Zinger Paratha">
+                    <div class="card-body"><h3>Zinger Paratha</h3><p>Fried dynamic processing crunchy bits matrix</p><div class="price-row"><span class="price">Rs. 350</span><button class="add-cart-btn" onclick="addToCart('Zinger Paratha', 350)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=500" alt="Mix Paratha">
+                    <div class="card-body"><h3>Zinger Chicken Mix Paratha</h3><p>Combined volume interior filling</p><div class="price-row"><span class="price">Rs. 300</span><button class="add-cart-btn" onclick="addToCart('Zinger Chicken Mix Paratha', 300)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=500" alt="Malai Paratha">
+                    <div class="card-body"><h3>Malai Boti Paratha</h3><p>Buttery smooth profile chicken base wrap</p><div class="price-row"><span class="price">Rs. 400</span><button class="add-cart-btn" onclick="addToCart('Malai Boti Paratha', 400)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=500" alt="BBQ Paratha">
+                    <div class="card-body"><h3>Bar-B-Q Special Paratha</h3><p>Charcoal infused sauce seasoning matrix</p><div class="price-row"><span class="price">Rs. 450</span><button class="add-cart-btn" onclick="addToCart('Bar-B-Q Special Paratha', 450)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=500" alt="Tikka Paratha">
+                    <div class="card-body"><h3>Chicken Tikka Paratha</h3><p>Red pepper tikka chunks distribution</p><div class="price-row"><span class="price">Rs. 350</span><button class="add-cart-btn" onclick="addToCart('Chicken Tikka Paratha', 350)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=500" alt="Paratha">
+                    <div class="card-body"><h3>Chicken Paratha</h3><p>Basic entry chicken flat layer layout</p><div class="price-row"><span class="price">Rs. 300</span><button class="add-cart-btn" onclick="addToCart('Chicken Paratha', 300)">Add to Cart</button></div></div>
+                </div>
+            </div>
+
+            <!-- GROUP: SIDES & PASTAS -->
+            <div class="menu-group" id="sides">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=500" alt="Hot Wings">
+                    <div class="card-body"><h3>Hot Wings (10 Pcs)</h3><p>Spicy coated crispy chicken wings</p><div class="price-row"><span class="price">Rs. 500</span><button class="add-cart-btn" onclick="addToCart('Hot Wings (10 Pcs)', 500)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1562967914-608f82629710?q=80&w=500" alt="Nuggets">
+                    <div class="card-body"><h3>Nuggets (10 Pcs)</h3><p>Soft pureed processing interior white meat chunks</p><div class="price-row"><span class="price">Rs. 450</span><button class="add-cart-btn" onclick="addToCart('Nuggets (10 Pcs)', 450)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=500" alt="Hot Shots">
+                    <div class="card-body"><h3>Hot Shot Bucket</h3><p>Miniature popcorn chicken assembly</p><div class="price-row"><span class="price">Rs. 250</span><button class="add-cart-btn" onclick="addToCart('Hot Shot Bucket', 250)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=500" alt="Fries Full">
+                    <div class="card-body"><h3>Fries Full</h3><p>Large cut salted regular potato fries</p><div class="price-row"><span class="price">Rs. 250</span><button class="add-cart-btn" onclick="addToCart('Fries Full', 250)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1585109649139-366815a0d713?q=80&w=500" alt="Loaded Fries">
+                    <div class="card-body"><h3>Loaded Fries</h3><p>Sauce drizzled potato base framework</p><div class="price-row"><span class="price">Rs. 300</span><button class="add-cart-btn" onclick="addToCart('Loaded Fries', 300)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1576107232684-1279f390859f?q=80&w=500" alt="Pizza Fries">
+                    <div class="card-body"><h3>Pizza Fries</h3><p>Topped with baked pizza cheese structure layers</p><div class="price-row"><span class="price">Rs. 550</span><button class="add-cart-btn" onclick="addToCart('Pizza Fries', 550)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=500" alt="Macaroni">
+                    <div class="card-body"><h3>Macaroni Pasta</h3><p>Classic hollow elbow format layout</p><div class="price-row"><span class="price">Rs. 450</span><button class="add-cart-btn" onclick="addToCart('Macaroni Pasta', 450)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1645112411341-6c4fd023714a?q=80&w=500" alt="Alfredo">
+                    <div class="card-body"><h3>Al-Fredo Pasta</h3><p>Thick premium white cream base alignment</p><div class="price-row"><span class="price">Rs. 500</span><button class="add-cart-btn" onclick="addToCart('Al-Fredo Pasta', 500)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=500" alt="Crunchy Pasta">
+                    <div class="card-body"><h3>Crunchy Pasta</h3><p>Topped with crushed crisps chips textures</p><div class="price-row"><span class="price">Rs. 550</span><button class="add-cart-btn" onclick="addToCart('Crunchy Pasta', 550)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=500" alt="BBQ Pasta">
+                    <div class="card-body"><h3>Bar-B-Q Pasta</h3><p>Smoky red sauce infusion design lines</p><div class="price-row"><span class="price">Rs. 550</span><button class="add-cart-btn" onclick="addToCart('Bar-B-Q Pasta', 550)">Add to Cart</button></div></div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1645112411341-6c4fd023714a?q=80&w=500" alt="Creamy Pasta">
+                    <div class="card-body"><h3>Creamy Pasta</h3><p>Mild unified emulsified cheese sauce base</p><div class="price-row"><span class="price">Rs. 500</span><button class="add-cart-btn" onclick="addToCart('Creamy Pasta', 500)">Add to Cart</button></div></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Cart Drawer Infrastructure UI Component -->
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h2>Your Selection Cart</h2>
+            <button class="close-cart" onclick="toggleCart(false)">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItemsContainer">
+            <!-- Programmatic compilation injection loop -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Subtotal:</span>
+                <span id="cartTotalDisplay">Rs. 0</span>
+            </div>
+            <a href="#order-form-section" class="checkout-btn" onclick="toggleCart(false)">Proceed To Checkout</a>
+        </div>
+    </div>
+
+    <!-- Unified Delivery Target Panel Form -->
+    <section class="order-section" id="order-form-section">
+        <h2 class="section-title">Secure Delivery Manifest</h2>
+        <p class="section-subtitle">Provide address location specs within Okara territory boundaries to lock the deployment</p>
+        
+        <form class="order-form" id="whatsappForm" onsubmit="executeCheckout(event)">
+            <div class="manifest-summary">
+                <h3>Selected Items Matrix Summary</h3>
+                <div class="manifest-list" id="manifestSummaryList">Your cart configuration matrix context state registry is currently empty. Add products from the listing above.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="customerName">Your Name</label>
+                <input type="text" id="customerName" required placeholder="e.g., John Doe">
+            </div>
+
+            <div class="form-group">
+                <label for="deliveryAddress">Delivery Address (Okara Jurisdiction)</label>
+                <textarea id="deliveryAddress" rows="3" required placeholder="Provide clear street coordinates, colony sector labels, house metrics or recognizable structural landmarks inside Okara region bounds"></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">🟢 Dispatch Manifest via WhatsApp Pipeline</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>📍 Physical Storefront Hub: Kharal Chowk Govt. Colony, Okara.</p>
+        <p>&copy; 2026 Decent Refreshment Point. Storefront infrastructure automated configuration compiled by Flicks Digital. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Scripting Execution Core Framework -->
+    <script>
+        // Storefront application cart data array state
+        let cartRegistry = [];
+
+        function filterMenu(categoryId) {
+            var groups = document.getElementsByClassName('menu-group');
+            for(var i=0; i<groups.length; i++) {
+                groups[i].classList.remove('active-group');
+            }
+            document.getElementById(categoryId).classList.add('active-group');
+
+            var tabs = document.getElementsByClassName('tab-btn');
+            for(var j=0; j<tabs.length; j++) {
+                tabs[j].classList.remove('active');
+            }
+            event.currentTarget.classList.add('active');
+        }
+
+        function toggleCart(openState) {
+            const drawer = document.getElementById('cartDrawer');
+            if(openState) drawer.classList.add('open');
+            else drawer.classList.remove('open');
+        }
+
+        // Logic routing matrix parameters for products mapping
+        function addToCart(baseName, itemPrice) {
+            const existingItem = cartRegistry.find(item => item.name === baseName);
+            if(existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cartRegistry.push({ name: baseName, price: itemPrice, qty: 1 });
+            }
+            renderCartUIState();
+        }
+
+        function addPizzaToCart(baseName, selectElementId) {
+            const selectValue = document.getElementById(selectElementId).value;
+            const sizeLabel = selectValue.split('-')[0];
+            const parsedPrice = parseInt(selectValue.split('-')[1]);
+            const compiledName = `${baseName} (${sizeLabel})`;
+            
+            addToCart(compiledName, parsedPrice);
+        }
+
+        function updateQuantity(itemName, deltaModifier) {
+            const structuralTarget = cartRegistry.find(item => item.name === itemName);
+            if(!structuralTarget) return;
+
+            structuralTarget.qty += deltaModifier;
+            if(structuralTarget.qty <= 0) {
+                cartRegistry = cartRegistry.filter(item => item.name !== itemName);
+            }
+            renderCartUIState();
+        }
+
+        // Render system mapping virtual item records into Document Object Model nodes
+        function renderCartUIState() {
+            const itemsContainer = document.getElementById('cartItemsContainer');
+            const summaryList = document.getElementById('manifestSummaryList');
+            const counterLabel = document.getElementById('cartCount');
+            const aggregateLabel = document.getElementById('cartTotalDisplay');
+
+            itemsContainer.innerHTML = '';
+            
+            let totalTallySum = 0;
+            let absoluteTotalItems = 0;
+            let billManifestSummaryText = '';
+
+            if(cartRegistry.length === 0) {
+                itemsContainer.innerHTML = '<p style="color:#888; text-align:center; margin-top:40px;">Your shopping cart is currently empty.</p>';
+                summaryList.innerHTML = 'Your cart configuration matrix context state registry is currently empty. Add products from the listing above.';
+                counterLabel.innerText = '0';
+                aggregateLabel.innerText = 'Rs. 0';
+                return;
+            }
+
+            cartRegistry.forEach(item => {
+                const itemCostProduct = item.price * item.qty;
+                totalTallySum += itemCostProduct;
+                absoluteTotalItems += item.qty;
+
+                billManifestSummaryText += `• ${item.name} x${item.qty} = Rs. ${itemCostProduct}<br>`;
+
+                const elementNode = document.createElement('div');
+                elementNode.classList.add('cart-item');
+                elementNode.innerHTML = `
+                    <div class="cart-item-details">
+                        <h4>${item.name}</h4>
+                        <p>Rs. ${item.price} × ${item.qty}</p>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="updateQuantity('${item.name}', -1)">-</button>
+                        <span style="font-weight:600; min-width:20px; text-align:center;">${item.qty}</span>
+                        <button class="qty-btn" onclick="updateQuantity('${item.name}', 1)">+</button>
+                    </div>
+                `;
+                itemsContainer.appendChild(elementNode);
+            });
+
+            counterLabel.innerText = absoluteTotalItems;
+            aggregateLabel.innerText = `Rs. ${totalTallySum}`;
+            summaryList.innerHTML = billManifestSummaryText + `<br><strong>Total Aggregate Order Bill Valuation: Rs. ${totalTallySum}</strong>`;
+        }
+
+        // Action terminal parsing array registry data into readable text dispatch formats
+        function executeCheckout(event) {
+            event.preventDefault();
+            
+            if(cartRegistry.length === 0) {
+                alert("Operation Aborted. Cannot process an empty checkout cart structure payload stack.");
+                return;
+            }
+
+            const activeTargetPhone = "923106008272"; // Extracted Menu Line
+            const clientNameInput = document.getElementById('customerName').value;
+            const deliveryCoordinates = document.getElementById('deliveryAddress').value;
+
+            let stringBuilderItems = '';
+            let transactionalSumTotal = 0;
+
+            cartRegistry.forEach((item, pointerIndex) => {
+                const compoundLineValue = item.price * item.qty;
+                transactionalSumTotal += compoundLineValue;
+                stringBuilderItems += `${pointerIndex + 1}. ${item.name} [%D7${item.qty}] -> Rs. ${compoundLineValue}%0A`;
+            });
+
+            var message = "*DECENT REFRESHMENT POINT (DIGITAL INVOICE)* 🍔%0A%0A" +
+                          "*Customer:* " + encodeURIComponent(clientNameInput) + "%0A" +
+                          "*Location:* " + encodeURIComponent(deliveryCoordinates) + "%0A%0A" +
+                          "*--- SELECTED ITEMS MANIFEST ---*%0A" + stringBuilderItems + "%0A" +
+                          "*Total Payable Bill:* Rs. " + transactionalSumTotal + "%0A%0A" +
+                          "_Sent via Flicks Digital Automation Order Framework_";
+
+            var whatsappUrl = "https://api.whatsapp.com/send?phone=" + activeTargetPhone + "&text=" + message;
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+
+</body>
+</html>
