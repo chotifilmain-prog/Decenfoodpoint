@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ذائقہ ایکسپریس | آن لائن فاسٹ فوڈ آرڈر</title>
+    <style>
+        /* بنیادی سیٹنگز */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans Arabic', Tahoma, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* ہیڈر اور نیویگیشن بار */
+        header {
+            background-color: #ffc107;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #dc3545;
+            text-decoration: none;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+            margin-right: 20px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #dc3545;
+        }
+
+        /* ہیرو سیکشن */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1561758033-d89a9ad46330?q=80&w=1470&auto=format&fit=crop') no-repeat center center/cover;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #ffc107;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #b02a37;
+        }
+
+        /* مینو سیکشن */
+        .menu-section {
+            padding: 60px 50px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 36px;
+            margin-bottom: 40px;
+            color: #dc3545;
+        }
+
+        .menu-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-body h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .order-btn {
+            background-color: #ffc107;
+            color: #333;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* آرڈر فارم سیکشن */
+        .order-section {
+            background-color: #fff3cd;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .order-form {
+            background: white;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: right;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        /* فوٹر */
+        footer {
+            background-color: #212529;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 10px; padding: 15px; }
+            .menu-section { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">🍔 ذائقہ ایکسپریس</a>
+        <nav>
+            <a href="#">ہوم</a>
+            <a href="#menu">مینو</a>
+            <a href="#order-form-section">آن لائن آرڈر</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>گھر بیٹھے لذیذ کھانا منگوائیں!</h1>
+        <p>اپنا پسندیدہ فاسٹ فوڈ منتخب کریں اور صرف چند سیکنڈز میں آرڈر کریں۔</p>
+        <a href="#menu" class="btn">ابھی آرڈر کریں</a>
+    </section>
+
+    <section class="menu-section" id="menu">
+        <h2 class="section-title">ہمارا مینو</h2>
+        
+        <div class="menu-container">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=500&auto=format&fit=crop" alt="برگر">
+                <div class="card-body">
+                    <h3>شاہی چیڈر برگر</h3>
+                    <div class="price-row">
+                        <span class="price">Rs. 450</span>
+                        <a href="#order-form-section" class="order-btn" onclick="selectItem('شاہی چیڈر برگر')">آرڈر کریں</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=500&auto=format&fit=crop" alt="پیزا">
+                <div class="card-body">
+                    <h3>چکن تکہ پیزا</h3>
+                    <div class="price-row">
+                        <span class="price">Rs. 899</span>
+                        <a href="#order-form-section" class="order-btn" onclick="selectItem('چکن تکہ پیزا')">آرڈر کریں</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=500&auto=format&fit=crop" alt="فرائز">
+                <div class="card-body">
+                    <h3>کرسپی مسالا فرائز</h3>
+                    <div class="price-row">
+                        <span class="price">Rs. 220</span>
+                        <a href="#order-form-section" class="order-btn" onclick="selectItem('کرسپی مسالا فرائز')">آرڈر کریں</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="order-section" id="order-form-section">
+        <h2 class="section-title">اپنا آن لائن آرڈر درج کریں</h2>
+        
+        <form class="order-form" id="whatsappForm" onsubmit="sendOrder(event)">
+            <div class="form-group">
+                <label for="name">آپ کا نام:</label>
+                <input type="text" id="name" required placeholder="اپنا پورا نام لکھیں">
+            </div>
+
+            <div class="form-group">
+                <label for="food-item">منتخب کردہ کھانا:</label>
+                <select id="food-item" required>
+                    <option value="">کھانا منتخب کریں...</option>
+                    <option value="شاہی چیڈر برگر">شاہی چیڈر برگر - Rs. 450</option>
+                    <option value="چکن تکہ پیزا">چکن تکہ پیزا - Rs. 899</option>
+                    <option value="کرسپی مسالا فرائز">کرسپی مسالا فرائز - Rs. 220</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="address">گھر کا پتہ:</label>
+                <textarea id="address" rows="3" required placeholder="مکمل پتہ لکھیں جہاں ڈیلیوری کرنی ہو"></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">🟢 واٹس ایپ پر آرڈر بھیجیں</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 ذائقہ ایکسپریس۔ تمام حقوق محفوظ ہیں۔</p>
+    </footer>
+
+    <script>
+        // جب کوئی مینو سے بٹن دبائے گا تو فارم میں وہ ڈش خود بخود منتخب ہو جائے گی
+        function selectItem(itemName) {
+            document.getElementById('food-item').value = itemName;
+        }
+
+        // واٹس ایپ پر ڈیٹا بھیجنے کا فنکشن
+        function sendOrder(event) {
+            event.preventDefault(); // فارم کو ریفریش ہونے سے روکنا
+
+            // یہاں اپنا واٹس ایپ نمبر لکھیں (کنٹری کوڈ کے ساتھ، بغیر پلس + کے)
+            var phoneNumber = "923001234567"; 
+
+            var name = document.getElementById('name').value;
+            var foodItem = document.getElementById('food-item').value;
+            var address = document.getElementById('address').value;
+
+            // واٹس ایپ میسج کا فارمیٹ
+            var message = "*نیا فاسٹ فوڈ آرڈر* 🍔%0A%0A" +
+                          "*نام:* " + name + "%0A" +
+                          "*کھانا:* " + foodItem + "%0A" +
+                          "*پتہ:* " + address;
+
+            // واٹس ایپ یو آر ایل بنانا
+            var whatsappUrl = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + message;
+
+            // صارف کو واٹس ایپ پر بھیجنا
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+
+</body>
+</html>
